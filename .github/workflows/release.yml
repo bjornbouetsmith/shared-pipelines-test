@@ -1,0 +1,29 @@
+# Tiny caller: all release logic lives in bjornbouetsmith/shared-pipelines.
+name: Release NuGet
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish_github_packages:
+        description: 'Publish the package to GitHub Packages'
+        type: boolean
+        default: true
+      publish_nuget_org:
+        description: 'Publish the package to nuget.org'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  release:
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/release-nuget.yml@v1
+    with:
+      solution: SharedPipelines.Sample.slnx
+      allowed-actors: bjornbouetsmith
+      publish-github-packages: ${{ inputs.publish_github_packages }}
+      publish-nuget-org: ${{ inputs.publish_nuget_org }}
+      nuget-org-user: bjornbouetsmith
