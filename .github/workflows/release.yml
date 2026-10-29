@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   release:
-    uses: bjornbouetsmith/shared-pipelines/.github/workflows/release-nuget.yml@v1.0.0
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/release-nuget.yml@v1.1.0
     with:
       solution: SharedPipelines.Sample.slnx
       allowed-actors: bjornbouetsmith

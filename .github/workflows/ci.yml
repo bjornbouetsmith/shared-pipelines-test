@@ -11,9 +11,22 @@ on:
 permissions:
   contents: read
   packages: read
+  statuses: write   # set-commit-status and sonar-publish-status
 
 jobs:
   build:
-    uses: bjornbouetsmith/shared-pipelines/.github/workflows/dotnet-ci-build.yml@v1.0.0
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/dotnet-ci-build.yml@v1.1.0
     with:
       solution: SharedPipelines.Sample.slnx
+      # Publish continuous-integration/build pending -> success/failure.
+      set-commit-status: true
+      # SonarCloud analysis around build and test; publishes
+      # continuous-integration/sonarcloud pending -> success/failure.
+      sonar: true
+      sonar-project-key: bjornbouetsmith_shared-pipelines-test
+      sonar-organization: bjornbouetsmith
+      sonar-coverage-reports: '**/coverage.opencover.xml'
+      test-args: >-
+        --verbosity normal
+        --settings tests/coverlet.runsettings
+    secrets: inherit
