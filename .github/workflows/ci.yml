@@ -29,4 +29,7 @@ jobs:
       test-args: >-
         --verbosity normal
         --settings tests/coverlet.runsettings
-    secrets: inherit
+    secrets:
+      # The repository secret is called SONAR_TOKEN; the reusable workflow
+      # expects "sonar-token", so it has to be mapped explicitly.
+      sonar-token: ${{ secrets.SONAR_TOKEN }}
