@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   build:
-    uses: bjornbouetsmith/shared-pipelines/.github/workflows/dotnet-ci-build.yml@v1.1.0
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/dotnet-ci-build.yml@v1.1.1
     with:
       solution: SharedPipelines.Sample.slnx
       # Publish continuous-integration/build pending -> success/failure.
