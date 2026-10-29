@@ -1,0 +1,46 @@
+# Tiny caller: all versioning logic lives in bjornbouetsmith/shared-pipelines.
+#
+# workflow_dispatch -> prepare: bump <Version>, build, test, push release/vX.Y.Z,
+#                                open the release pull request.
+# push to main     -> tag:     tag the merged version.
+name: Increment Version and Tag Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_part:
+        description: 'Semantic version part to increment'
+        type: choice
+        options:
+          - Patch
+          - Minor
+          - Major
+        default: Patch
+      mode:
+        description: 'Which half of the pipeline to run'
+        type: choice
+        options:
+          - auto
+          - prepare
+          - tag
+        default: auto
+      create_pr:
+        description: 'Open a pull request for the release branch'
+        type: boolean
+        default: true
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/increment-version.yml@v1
+    with:
+      mode: ${{ inputs.mode || 'auto' }}
+      version-part: ${{ inputs.version_part || 'patch' }}
+      create-pr: ${{ github.event_name == 'workflow_dispatch' && inputs.create_pr || false }}
+      version-file: Directory.Build.props
+      solution: SharedPipelines.Sample.slnx

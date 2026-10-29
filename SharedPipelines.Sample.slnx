@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SharedPipelines.Sample/SharedPipelines.Sample.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SharedPipelines.Sample.Tests/SharedPipelines.Sample.Tests.csproj" />
+  </Folder>
+</Solution>

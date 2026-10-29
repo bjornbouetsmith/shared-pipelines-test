@@ -1,0 +1,19 @@
+# Tiny caller: all CI logic lives in bjornbouetsmith/shared-pipelines.
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  build:
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/dotnet-ci-build.yml@v1
+    with:
+      solution: SharedPipelines.Sample.slnx
