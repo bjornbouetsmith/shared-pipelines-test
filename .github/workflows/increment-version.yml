@@ -37,7 +37,7 @@ permissions:
 
 jobs:
   release:
-    uses: bjornbouetsmith/shared-pipelines/.github/workflows/increment-version.yml@v1
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/increment-version.yml@v1.0.0
     with:
       mode: ${{ inputs.mode || 'auto' }}
       version-part: ${{ inputs.version_part || 'patch' }}
