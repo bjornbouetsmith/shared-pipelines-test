@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SharedPipelines.DockerSample/SharedPipelines.DockerSample.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SharedPipelines.DockerSample.Tests/SharedPipelines.DockerSample.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,15 @@
+# Service used by the Docker-aware shared pipeline test.
+#
+# The pipeline starts this stack, waits for http://127.0.0.1:8080/ and then runs
+# the integration tests with SERVICE_URL pointing at the same address.
+services:
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1/ >/dev/null || exit 1"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      start_period: 2s
