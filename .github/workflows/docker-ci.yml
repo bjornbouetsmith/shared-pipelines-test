@@ -24,7 +24,7 @@ permissions:
 
 jobs:
   build:
-    uses: bjornbouetsmith/shared-pipelines/.github/workflows/dotnet-docker-ci-build.yml@v1.3.0
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/dotnet-docker-ci-build.yml@v1.4.0
     with:
       working-directory: docker
       solution: SharedPipelines.Docker.slnx

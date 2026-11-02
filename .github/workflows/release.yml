@@ -1,4 +1,8 @@
 # Tiny caller: all release logic lives in bjornbouetsmith/shared-pipelines.
+# The shared workflow builds, tests, packs and publishes to GitHub Packages.
+# nuget.org publishing runs as a separate caller job because a composite action
+# keeps NuGet/login inside this repository's workflow file, which is what the
+# nuget.org Trusted Publishing policy matches against.
 name: Release NuGet
 
 on:
@@ -16,14 +20,28 @@ on:
 permissions:
   contents: read
   packages: write
-  id-token: write
 
 jobs:
   release:
-    uses: bjornbouetsmith/shared-pipelines/.github/workflows/release-nuget.yml@v1.3.0
+    permissions:
+      contents: read
+      packages: write
+    uses: bjornbouetsmith/shared-pipelines/.github/workflows/release-nuget.yml@v1.4.0
     with:
       solution: SharedPipelines.Sample.slnx
       allowed-actors: bjornbouetsmith
       publish-github-packages: ${{ inputs.publish_github_packages }}
-      publish-nuget-org: ${{ inputs.publish_nuget_org }}
-      nuget-org-user: bjornbouetsmith
+      publish-nuget-org: false
+
+  publish-nuget-org:
+    needs: release
+    if: ${{ inputs.publish_nuget_org }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: bjornbouetsmith/shared-pipelines/.github/actions/publish-nuget@v1.4.0
+        with:
+          artifact-name: nuget-packages
+          user: bjornbouetsmith

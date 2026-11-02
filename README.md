@@ -13,7 +13,7 @@ in [bjornbouetsmith/shared-pipelines](https://github.com/bjornbouetsmith/shared-
 | `docker/tests/SharedPipelines.DockerSample.Tests` | Integration test that requires the compose service. |
 | `.github/workflows/ci.yml` | 19 line caller for `dotnet-ci-build.yml`. |
 | `.github/workflows/docker-ci.yml` | Caller for `dotnet-docker-ci-build.yml`. |
-| `.github/workflows/release.yml` | 26 line caller for `release-nuget.yml`. |
+| `.github/workflows/release.yml` | Caller for `release-nuget.yml` plus the `publish-nuget` composite action for OIDC. |
 | `.github/workflows/increment-version.yml` | 47 line caller for `increment-version.yml`. |
 
 No build, test, pack, publish or versioning logic lives in this repository: every
@@ -44,12 +44,13 @@ docker compose -f docker/docker-compose.yml down -v
   and always stops the stack afterwards.
 - **Release** — `dotnet pack` of the packable project, GitHub Packages push into
   the `bjornbouetsmith` feed, artifact upload and the `allowed-actors`
-  allow-list.
+  allow-list. When `publish_nuget_org` is selected, a second job runs the
+  `publish-nuget` composite action, which logs in to nuget.org with OIDC in this
+  repository's workflow context and pushes the artifact.
 - **Increment version** — `prepare` bumps `Directory.Build.props`, builds and
   tests the release branch and opens a release PR; `tag` creates `v<version>`
   for the merged commit.
 
-All four workflows are pinned to `v1.3.0`, the first release that contains
-`dotnet-docker-ci-build.yml` and the Docker Compose actions. The existing CI,
-release and version workflows were moved to the same tag so every workflow and
-the composite actions it uses come from one release.
+All workflows are pinned to `v1.4.0`, which adds the public `publish-nuget`
+composite action used by the release caller. Every workflow and the composite
+actions it uses come from one release.
